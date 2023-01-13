@@ -1,9 +1,9 @@
 #Windows Powershell 7
-if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Windows PowerShell 7.lnk")){  
+if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\PowerShell 7 (x64).lnk")){  
  $ComObj = New-Object -ComObject WScript.Shell
-    $ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Windows PowerShell 7.lnk")
+    $ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\PowerShell 7 (x64).lnk")
     $ShortCut.TargetPath = "C:\Program Files\PowerShell\7\pwsh.exe"
-    $ShortCut.Description = "Windows PowerShell 7"
+    $ShortCut.Description = "PowerShell 7"
     $ShortCut.FullName 
     $ShortCut.WindowStyle = 1
     $ShortCut.Save()
@@ -128,12 +128,22 @@ if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Powerpoint.lnk")){
 	$ShortCut.WindowStyle = 1
 	$ShortCut.Save()
 	}
-#Adobe DC 2023
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Adobe DC.lnk")){  
+#Adobe Acrobat DC
+	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Adobe Acrobat.lnk")){  
 	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Adobe DC.lnk")
+	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Adobe Acrobat.lnk")
 	$ShortCut.TargetPath = "C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe"
 	$ShortCut.Description = "Adobe DC"
+	$ShortCut.FullName 
+	$ShortCut.WindowStyle = 1
+	$ShortCut.Save()
+	}
+#Adobe Creative Cloud
+	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Adobe Creative Cloud.lnk")){  
+	$ComObj = New-Object -ComObject WScript.Shell
+	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Adobe Creative Cloud.lnk")
+	$ShortCut.TargetPath = "C:\Program Files\Adobe\Adobe Creative Cloud\ACC\Creative Cloud.exe"
+	$ShortCut.Description = "Adobe Creative Cloud"
 	$ShortCut.FullName 
 	$ShortCut.WindowStyle = 1
 	$ShortCut.Save()
@@ -214,6 +224,16 @@ if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Powerpoint.lnk")){
 	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\7-Zip File Manager.lnk")
 	$ShortCut.TargetPath = "C:\Program Files\7-Zip\7zFM.exe"
 	$ShortCut.Description = "7-Zip File Manager"
+	$ShortCut.FullName 
+	$ShortCut.WindowStyle = 1
+	$ShortCut.Save()
+	}
+#Teamviewer Host
+	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\TeamViewer.lnk")){  
+	$ComObj = New-Object -ComObject WScript.Shell
+	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\TeamViewer.lnk")
+	$ShortCut.TargetPath = "C:\Program Files (x86)\TeamViewer\Teamviewer.exe"
+	$ShortCut.Description = "TeamViewer"
 	$ShortCut.FullName 
 	$ShortCut.WindowStyle = 1
 	$ShortCut.Save()
