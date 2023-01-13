@@ -1,250 +1,63 @@
-#Windows Powershell 7
-if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\PowerShell 7 (x64).lnk")){  
- $ComObj = New-Object -ComObject WScript.Shell
-    $ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\PowerShell 7 (x64).lnk")
-    $ShortCut.TargetPath = "C:\Program Files\PowerShell\7\pwsh.exe"
-    $ShortCut.Description = "PowerShell 7"
-    $ShortCut.FullName 
-    $ShortCut.WindowStyle = 1
-    $ShortCut.Save()
+#Author: Silvio Di Benedetto
+#Company: Inside Technologies
+#Site: www.silviodibenedetto.com
+#Description: this script will recreate the lost application links into Start Menu after the Defender's bug. 
+# this script can run with low permission because use local variable
+# if the application doesn't exists nothing happen
+
+$programs = @{
+    "Adobe Acrobat"            = "C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe"
+    "Adobe Photoshop 2023" = "C:\Program Files\Adobe\Adobe Photoshop 2023\photoshop.exe"
+    "Adobe Illustrator 2023" = "C:\Program Files\Adobe\Adobe Illustrator 2023\Support Files\Contents\Windows\illustrator.exe"
+    "Adobe Creative Cloud" = "C:\Program Files\Adobe\Adobe Creative Cloud\ACC\Creative Cloud.exe"
+    "Firefox Private Browsing" = "C:\Program Files\Mozilla Firefox\private_browsing.exe"
+    "Firefox"                  = "C:\Program Files\Mozilla Firefox\firefox.exe"
+    "Google Chrome"            = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+    "Microsoft Edge"           = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+    "Notepad++"                = "C:\Program Files\Notepad++\notepad++.exe"
+    "Parallels Client"         = "C:\Program Files\Parallels\Client\APPServerClient.exe"
+    "Remote Desktop"           = "C:\Program Files\Remote Desktop\msrdcw.exe"
+    "TeamViewer"               = "C:\Program Files\TeamViewer\TeamViewer.exe"
+    "Royal TS6" = "C:\Program Files\Royal TS V6\royalts.exe"
+    "Elgato StreamDeck" = "C:\Program Files\Elgato\StreamDeck\StreamDeck.exe"
+    "Visual Studio 2022" = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.exe"
+    "Visual Studio Code" = "C:\Program Files\Microsoft VS Code\code.exe"
+    "Camtasia Studio" = "C:\Program Files\TechSmith\Camtasia 2022\CamtasiaStudio.exe"
+    "Camtasia Recorder" = "C:\Program Files\TechSmith\Camtasia 2022\CamtasiaRecorder.exe"
+    "Jabra Direct" = "C:\Program Files (x86)\Jabra\Direct6\jabra-direct.exe"
+    "7-Zip File Manager" = "C:\Program Files\7-Zip\7zFM.exe"
+    "Access"                   = "C:\Program Files\Microsoft Office\root\Office16\MSACCESS.EXE"
+    "Excel"                    = "C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE"
+    "OneDrive"                 = "C:\Program Files\Microsoft OneDrive\onedrive.exe"
+    "OneNote"                  = "C:\Program Files\Microsoft Office\root\Office16\ONENOTE.EXE"
+    "Outlook"                  = "C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE"
+    "PowerPoint"               = "C:\Program Files\Microsoft Office\root\Office16\POWERPNT.EXE"
+    "Project"                  = "C:\Program Files\Microsoft Office\root\Office16\WINPROJ.EXE"
+    "Publisher"                = "C:\Program Files\Microsoft Office\root\Office16\MSPUB.EXE"
+    "Visio"                    = "C:\Program Files\Microsoft Office\root\Office16\VISIO.EXE"
+    "Word"                     = "C:\Program Files\Microsoft Office\root\Office16\WINWORD.exe"
+    "PowerShell 7 (x64)"       = "C:\Program Files\PowerShell\7\pwsh.exe"
+    "SQL Server Management Studio" = "C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\ssms.exe"
+    "Azure Data Studio" = "C:\Program Files\Azure Data Studio\azuredatastudio.exe"
+}
+
+#Check for shortcuts in Start Menu, if program is available and the shortcut isn't... Then recreate the shortcut
+$programs.GetEnumerator() | ForEach-Object {
+    if (Test-Path -Path $_.Value) {
+        if (-not (Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\$($_.Key).lnk")) {
+        #if (-not (Test-Path -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$($_.Key).lnk")) {
+            write-host ("Shortcut for {0} not found in {1}, creating it now..." -f $_.Key, $_.Value)
+            #$shortcut = $env:USERPROFILE+"\Start Menu\Programs\$($_.Key).lnk"
+            $shortcut = $env:USERPROFILE+"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$($_.Key).lnk"
+            $target = $_.Value
+            $description = $_.Key
+            $workingdirectory = (Get-ChildItem $target).DirectoryName
+            $WshShell = New-Object -ComObject WScript.Shell
+            $Shortcut = $WshShell.CreateShortcut($shortcut)
+            $Shortcut.TargetPath = $target
+            $Shortcut.Description = $description
+            $shortcut.WorkingDirectory = $workingdirectory
+            $Shortcut.Save()
+        }
     }
-#Edge
-if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Microsoft Edge.lnk")){  
- $ComObj = New-Object -ComObject WScript.Shell
-    $ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Microsoft Edge.lnk")
-    $ShortCut.TargetPath = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
-    $ShortCut.Description = "Edge"
-    $ShortCut.FullName 
-    $ShortCut.WindowStyle = 1
-    $ShortCut.Save()
-    }
-#OneDrive
-if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\OneDrive.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\OneDrive.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\Microsoft OneDrive\onedrive.exe"
-	$ShortCut.Description = "OneDrive"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#OneNote
-if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\OneNote.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\OneNote.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\Microsoft Office\root\Office16\OneNote.exe"
-	$ShortCut.Description = "OneNote"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#PowerPoint	
-if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Powerpoint.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Powerpoint.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\Microsoft Office\root\Office16\PowerPNT.exe"
-	$ShortCut.Description = "PowerPoint"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#Word
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Word.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Word.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\Microsoft Office\root\Office16\Winword.EXE"
-	$ShortCut.Description = "Word"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#Outlook
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Outlook.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Outlook.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\Microsoft Office\root\Office16\Outlook.exe"
-	$ShortCut.Description = "Outlook"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#Excel
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Excel.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Excel.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE"
-	$ShortCut.Description = "Excel"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#Parallels RAS
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Parallels Client.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Parallels Client.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\Parallels\Client\APPServerClient.exe"
-	$ShortCut.Description = "Parallels RAS"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#SQL Management Studio
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\SQL Server Management Studio.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\SQL Server Management Studio.lnk")
-	$ShortCut.TargetPath = "C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\ssms.exe"
-	$ShortCut.Description = "SQL Server Management Studio"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#Azure Data Studio
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Azure Data Studio.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Azure Data Studio.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\Azure Data Studio\azuredatastudio.exe"
-	$ShortCut.Description = "Azure Data Studio"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#Adobe Photoshop 2023
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Adobe Photoshop 2023.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Adobe Photoshop 2023.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\Adobe\Adobe Photoshop 2023\photoshop.exe"
-	$ShortCut.Description = "Adobe Photoshop 2023"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#Adobe Illustrator 2023
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Adobe Illustrator 2023.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Adobe Illustrator 2023.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\Adobe\Adobe Illustrator 2023\Support Files\Contents\Windows\illustrator.exe"
-	$ShortCut.Description = "Adobe Illustrator 2023"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#Adobe Acrobat DC
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Adobe Acrobat.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Adobe Acrobat.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe"
-	$ShortCut.Description = "Adobe DC"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#Adobe Creative Cloud
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Adobe Creative Cloud.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Adobe Creative Cloud.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\Adobe\Adobe Creative Cloud\ACC\Creative Cloud.exe"
-	$ShortCut.Description = "Adobe Creative Cloud"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#RoyalTS 6
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Royal TS6.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Royal TS6.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\Royal TS V6\royalts.exe"
-	$ShortCut.Description = "Royal TS6"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#Elgato Streamdeck
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Elgato StreamDeck.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Elgato StreamDeck.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\Elgato\StreamDeck\StreamDeck.exe"
-	$ShortCut.Description = "Elgato StreamDeck"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#Visual Studio 2022
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Visual Studio 2022.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Visual Studio 2022.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.exe"
-	$ShortCut.Description = "Visual Studio 2022"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#Visual Studio Code
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Visual Studio Code.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Visual Studio Code.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\Microsoft VS Code\code.exe"
-	$ShortCut.Description = "Visual Studio Code"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#Camtasia Studio
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Camtasia Studio.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Camtasia Studio.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\TechSmith\Camtasia 2022\CamtasiaStudio.exe"
-	$ShortCut.Description = "Camtasia Studio"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#Camtasia Recorder
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Camtasia Recorder.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Camtasia Recorder.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\TechSmith\Camtasia 2022\CamtasiaRecorder.exe"
-	$ShortCut.Description = "Camtasia Recorder"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#Jabra Direct
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Jabra Direct.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Jabra Direct.lnk")
-	$ShortCut.TargetPath = "C:\Program Files (x86)\Jabra\Direct6\jabra-direct.exe"
-	$ShortCut.Description = "Jabra Direct"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#Notepad++
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Notepad++.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Notepad++.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\Notepad++\notepad++.exe"
-	$ShortCut.Description = "Notepad++"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-# 7-Zip
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\7-Zip File Manager.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\7-Zip File Manager.lnk")
-	$ShortCut.TargetPath = "C:\Program Files\7-Zip\7zFM.exe"
-	$ShortCut.Description = "7-Zip File Manager"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
-#Teamviewer Host
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\TeamViewer.lnk")){  
-	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\TeamViewer.lnk")
-	$ShortCut.TargetPath = "C:\Program Files (x86)\TeamViewer\Teamviewer.exe"
-	$ShortCut.Description = "TeamViewer"
-	$ShortCut.FullName 
-	$ShortCut.WindowStyle = 1
-	$ShortCut.Save()
-	}
+}
