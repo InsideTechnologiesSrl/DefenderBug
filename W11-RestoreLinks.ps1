@@ -79,9 +79,9 @@ if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Powerpoint.lnk")){
 	$ShortCut.Save()
 	}
 #Parallels RAS
-	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Parallels RAS.lnk")){  
+	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Parallels Client.lnk")){  
 	$ComObj = New-Object -ComObject WScript.Shell
-	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Parallels RAS.lnk")
+	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Parallels Client.lnk")
 	$ShortCut.TargetPath = "C:\Program Files\Parallels\Client\APPServerClient.exe"
 	$ShortCut.Description = "Parallels RAS"
 	$ShortCut.FullName 
@@ -179,6 +179,16 @@ if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Powerpoint.lnk")){
 	$ShortCut.Save()
 	}
 #Visual Studio Code
+	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Visual Studio Code.lnk")){  
+	$ComObj = New-Object -ComObject WScript.Shell
+	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Visual Studio Code.lnk")
+	$ShortCut.TargetPath = "C:\Program Files\Microsoft VS Code\code.exe"
+	$ShortCut.Description = "Visual Studio Code"
+	$ShortCut.FullName 
+	$ShortCut.WindowStyle = 1
+	$ShortCut.Save()
+	}
+#Camtasia Studio
 	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Camtasia Studio.lnk")){  
 	$ComObj = New-Object -ComObject WScript.Shell
 	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Camtasia Studio.lnk")
@@ -188,7 +198,7 @@ if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Powerpoint.lnk")){
 	$ShortCut.WindowStyle = 1
 	$ShortCut.Save()
 	}
-#Camtasia Studio
+#Camtasia Recorder
 	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Camtasia Recorder.lnk")){  
 	$ComObj = New-Object -ComObject WScript.Shell
 	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Camtasia Recorder.lnk")
