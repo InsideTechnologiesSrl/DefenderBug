@@ -198,3 +198,23 @@ if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Powerpoint.lnk")){
 	$ShortCut.WindowStyle = 1
 	$ShortCut.Save()
 	}
+#Notepad++
+	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\Notepad++.lnk")){  
+	$ComObj = New-Object -ComObject WScript.Shell
+	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\Notepad++.lnk")
+	$ShortCut.TargetPath = "C:\Program Files\Notepad++\notepad++.exe"
+	$ShortCut.Description = "Notepad++"
+	$ShortCut.FullName 
+	$ShortCut.WindowStyle = 1
+	$ShortCut.Save()
+	}
+# 7-Zip
+	if(!(Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\7-Zip File Manager.lnk")){  
+	$ComObj = New-Object -ComObject WScript.Shell
+	$ShortCut = $ComObj.CreateShortcut($env:USERPROFILE + "\Start Menu\Programs\7-Zip File Manager.lnk")
+	$ShortCut.TargetPath = "C:\Program Files\7-Zip\7zFM.exe"
+	$ShortCut.Description = "7-Zip File Manager"
+	$ShortCut.FullName 
+	$ShortCut.WindowStyle = 1
+	$ShortCut.Save()
+	}
