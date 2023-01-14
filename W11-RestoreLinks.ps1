@@ -1,9 +1,21 @@
-#Author: Silvio Di Benedetto
-#Company: Inside Technologies
-#Site: www.silviodibenedetto.com
-#Description: this script will recreate the lost application links into Start Menu after the Defender's bug. 
-# this script can run with low permission because use local variable
-# if the application doesn't exists nothing happen
+<#
+Author: Silvio Di Benedetto
+Company: Inside Technologies
+Site: www.silviodibenedetto.com
+
+Description: this script will recreate the lost application links into Start Menu after the Defender's bug. 
+this script can run with low permission because use local variable
+if the application doesn't exists nothing happen
+    
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE
+#>
+
 
 $programs = @{
     "Adobe Acrobat"            = "C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe"
@@ -45,9 +57,7 @@ $programs = @{
 $programs.GetEnumerator() | ForEach-Object {
     if (Test-Path -Path $_.Value) {
         if (-not (Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\$($_.Key).lnk")) {
-        #if (-not (Test-Path -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$($_.Key).lnk")) {
             write-host ("Shortcut for {0} not found in {1}, creating it now..." -f $_.Key, $_.Value)
-            #$shortcut = $env:USERPROFILE+"\Start Menu\Programs\$($_.Key).lnk"
             $shortcut = $env:USERPROFILE+"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$($_.Key).lnk"
             $target = $_.Value
             $description = $_.Key
