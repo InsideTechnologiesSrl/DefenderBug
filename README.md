@@ -1,11 +1,7 @@
-# DefenderBug
+# Defender ASR Bug
 
-Many end-users raise drops of icons from Start Menu, Taskbar and Desktop.
+On January 13th, Windows Security and Microsoft Defender for Endpoint customers may have experienced a series of false positive detections for the Attack Surface Reduction (ASR) rule "Block Win32 API calls from Office macro" after updating to security intelligence build 1.381.2140.0. These detections resulted in the deletion of certain Windows shortcut (.lnk) files that matched the incorrect detection pattern. 
 
-The problem is behind a wrong Windows Defender signature (1.381.2140). This signature tells to Defender to remove all icons because not secure, even the application is Edge, Word, Excel or whatever.
+There’s no way to restore the icon but there’s a way to rebuild the most common to Start Menu with this script.
 
-The rule under investigation is "Block Win32 API calls from Office macros". You must to set the rule 92e97fa1-2edf-4476-bdd6-9dd0b4dddc7b from Enable to Audit and update the signature to 1.381.2152.
-
-But in the meantime the links are gone! This Repro is to create a public content to restore the most known programs to Start Menu.
-
-The first script is for Windows 11 but will release a version for Windows 10.
+I will keep updated the script every day.
