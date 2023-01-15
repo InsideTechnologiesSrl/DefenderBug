@@ -7,3 +7,5 @@ There’s no way to restore the icon but there’s a way to rebuild the most com
 I will keep updated the script every day.
 
 If you want collaborate, send your programs.
+
+Last Update: 15/01/2023
