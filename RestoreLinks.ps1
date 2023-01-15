@@ -18,6 +18,8 @@ if the application doesn't exists nothing happen
 
 $programs = @{
     "Adobe Acrobat"            = "C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe"
+    "Adobe Acrobat Distiller" = "C:\Program Files\Adobe\Acrobat DC\Acrobat\acrodist.exe"
+    "Cinema 4D" = "C:\Program Files\Maxon Cinema 4D 2023\Cinema 4D.exe"
     "Adobe Photoshop 2023" = "C:\Program Files\Adobe\Adobe Photoshop 2023\photoshop.exe"
     "Adobe Illustrator 2023" = "C:\Program Files\Adobe\Adobe Illustrator 2023\Support Files\Contents\Windows\illustrator.exe"
     "Adobe Creative Cloud" = "C:\Program Files\Adobe\Adobe Creative Cloud\ACC\Creative Cloud.exe"
@@ -55,9 +57,9 @@ $programs = @{
 #Check for shortcuts in Start Menu, if program is available and the shortcut isn't... Then recreate the shortcut
 $programs.GetEnumerator() | ForEach-Object {
     if (Test-Path -Path $_.Value) {
-        if (-not (Test-Path -Path $env:USERPROFILE+"\Start Menu\Programs\$($_.Key).lnk")) {
+        if (-not (Test-Path -Path "$env:USERPROFILE\Start Menu\Programs\$($_.Key).lnk")) {
             write-host ("Shortcut for {0} not found in {1}, creating it now..." -f $_.Key, $_.Value)
-            $shortcut = $env:USERPROFILE+"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$($_.Key).lnk"
+            $shortcut = "$env:USERPROFILE\Start Menu\Programs\$($_.Key).lnk"
             $target = $_.Value
             $description = $_.Key
             $workingdirectory = (Get-ChildItem $target).DirectoryName
@@ -67,6 +69,7 @@ $programs.GetEnumerator() | ForEach-Object {
             $Shortcut.Description = $description
             $shortcut.WorkingDirectory = $workingdirectory
             $Shortcut.Save()
+            Start-Sleep -Seconds 1			# Let the LNK file be backed to disk
         }
     }
 }
