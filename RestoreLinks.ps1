@@ -69,6 +69,7 @@ $programs = @{
     "DIALux evo" = "C:\Program Files\DIAL GmbH\DIALux\DIALux.exe"
     "DIALux evo x86" = "C:\Program Files\DIAL GmbH\DIALux\DIALux_x86.exe"
     "AutoCAD LT 2023" = "C:\Program Files\Autodesk\AutoCAD LT 2023\acadlt.exe"
+    "Rhino 7" = "C:\Program Files\Rhino 7\System\Rhino.exe"
 }
 
 #Check for shortcuts in Start Menu, if program is available and the shortcut isn't... Then recreate the shortcut
@@ -102,4 +103,7 @@ $programs.GetEnumerator() | ForEach-Object {
         }
     }
 }
+
+Copy-Item "$profile_path\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Microsoft Edge.lnk" -Destination "$profile_path\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\"
+Copy-Item "$profile_path\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Outlook.lnk" -Destination "$profile_path\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\"
 } 
