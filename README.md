@@ -18,10 +18,8 @@ DeviceEvents
 | summarize by Timestamp, DeviceId, FileName, FolderPath, ActionType, AdditionalFields, isAudit
 | sort by Timestamp asc
 
-I will keep updated the script every day.
-
-If you want collaborate, send your programs.
+I will keep updated the script every day. If you want collaborate, send your programs.
 
 Last Update: 16/01/2023
 
-Version: 1.7
+Version: 2.0
