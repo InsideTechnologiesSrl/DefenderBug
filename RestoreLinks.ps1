@@ -15,8 +15,6 @@ if the application doesn't exists nothing happen
     SOFTWARE
 #>
 
-# WE ARE WORKING TO FIX AN ERROR DURING THE SCRIPT BECAUSE IN THIS MOMENT THE PROCEDURE TRY TO ADD ICONS IN ALL PROFILES. WE WILL FIX IT SOON
-
 $programs = @{
     "Acrobat Reader DC" = "C:\Program Files (x86)\Adobe\Acrobat Reader DC\Reader\AcroRd32.exe"
     "Adobe Acrobat"            = "C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe"
@@ -75,18 +73,7 @@ $programs = @{
 }
 
 #Check for shortcuts in Start Menu, if program is available and the shortcut isn't... Then recreate the shortcut
-<#
-$guid = New-Guid
-New-PSDrive -PSProvider Registry -Name $guid -Root HKEY_USERS -Scope Global | Out-Null
-$users = Get-ChildItem -Path "${guid}:\"
-foreach ($user in $users){
-    # Skip builtin    
-    if ($user.Name.Contains(".DEFAULT") -or $user.Name.EndsWith("_Classes"))
-    {        
-        continue;   
-    }
-$sid_string = $user.Name.Split("\")[-1]
-#>
+
 $sid = [System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
 $profile_path = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\$sid" -Name "ProfileImagePath").ProfileImagePath
 
@@ -108,4 +95,3 @@ $programs.GetEnumerator() | ForEach-Object {
         }
     }
 }
-#} 
