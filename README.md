@@ -23,4 +23,5 @@ I will keep updated the script every day.
 If you want collaborate, send your programs.
 
 Last Update: 16/01/2023
-Version: 1.5
+
+Version: 1.7
