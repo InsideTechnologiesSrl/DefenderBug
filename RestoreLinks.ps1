@@ -17,9 +17,11 @@ if the application doesn't exists nothing happen
 
 
 $programs = @{
+    "Acrobat Reader DC" = "C:\Program Files (x86)\Adobe\Acrobat Reader DC\Reader\AcroRd32.exe"
     "Adobe Acrobat"            = "C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe"
     "Adobe Acrobat Distiller" = "C:\Program Files\Adobe\Acrobat DC\Acrobat\acrodist.exe"
     "Cinema 4D" = "C:\Program Files\Maxon Cinema 4D 2023\Cinema 4D.exe"
+    "Blender 3.4" = ""
     "Adobe Photoshop 2023" = "C:\Program Files\Adobe\Adobe Photoshop 2023\photoshop.exe"
     "Adobe Illustrator 2023" = "C:\Program Files\Adobe\Adobe Illustrator 2023\Support Files\Contents\Windows\illustrator.exe"
     "Adobe Creative Cloud" = "C:\Program Files\Adobe\Adobe Creative Cloud\ACC\Creative Cloud.exe"
@@ -27,8 +29,10 @@ $programs = @{
     "Firefox"                  = "C:\Program Files\Mozilla Firefox\firefox.exe"
     "Google Chrome"            = "C:\Program Files\Google\Chrome\Application\chrome.exe"
     "Microsoft Edge"           = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
-    "Notepad++"                = "C:\Program Files\Notepad++\notepad++.exe"
+    "Notepad++"                = "C:\Program Files\Notepad++\notepad++.exe" #x64 version
+    #"Notepad++"                = "C:\Program Files (x86)\Notepad++\notepad++.exe" #x32 version
     "Parallels Client"         = "C:\Program Files\Parallels\Client\APPServerClient.exe"
+    "MobaXterm" = "C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe"
     "Remote Desktop"           = "C:\Program Files\Remote Desktop\msrdcw.exe"
     "TeamViewer"               = "C:\Program Files\TeamViewer\TeamViewer.exe"
     "Royal TS6" = "C:\Program Files\Royal TS V6\royalts.exe"
@@ -52,14 +56,38 @@ $programs = @{
     "PowerShell 7 (x64)"       = "C:\Program Files\PowerShell\7\pwsh.exe"
     "SQL Server Management Studio" = "C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\ssms.exe"
     "Azure Data Studio" = "C:\Program Files\Azure Data Studio\azuredatastudio.exe"
+    #"Zoom"                         = "zoom.exe"
+    "Internet Explorer"            = "C:\Program Files (x86)\Internet Explorer\IEXPLORE.EXE"
+    #"VLC Player"                   = "vlc.exe"   
+    #"Cisco Jabber"                 = "CiscoJabber.exe"
+    #"Microsoft Teams"              = "msteams.exe"
+    #"PuTTY"                        = "putty.exe"
+    "Wordpad"                      = "C:\Windows\write.EXE"
+    "Relux" = "C:\Program Files (x86)\ReluxDesktop\obj\reluxPro.exe"
+    "DIALux 4.13" = "C:\Program Files (x86)\DIALux\DIALux.exe"
+    "DIALux evo" = "C:\Program Files\DIAL GmbH\DIALux\DIALux.exe"
+    "DIALux evo x86" = "C:\Program Files\DIAL GmbH\DIALux\DIALux_x86.exe"
+    "AutoCAD LT 2023" = "C:\Program Files\Autodesk\AutoCAD LT 2023\acadlt.exe"
 }
 
 #Check for shortcuts in Start Menu, if program is available and the shortcut isn't... Then recreate the shortcut
+$guid = New-Guid
+New-PSDrive -PSProvider Registry -Name $guid -Root HKEY_USERS -Scope Global | Out-Null
+$users = Get-ChildItem -Path "${guid}:\"
+foreach ($user in $users){
+    # Skip builtin    
+    if ($user.Name.Contains(".DEFAULT") -or $user.Name.EndsWith("_Classes"))
+    {        
+        continue;   
+    }
+$sid_string = $user.Name.Split("\")[-1] 
+$profile_path = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\$sid_string" -Name "ProfileImagePath").ProfileImagePath
+
 $programs.GetEnumerator() | ForEach-Object {
     if (Test-Path -Path $_.Value) {
-        if (-not (Test-Path -Path "$env:USERPROFILE\Start Menu\Programs\$($_.Key).lnk")) {
+        if (-not (Test-Path -Path "$profile_path\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\$($_.Key).lnk")) {
             write-host ("Shortcut for {0} not found in {1}, creating it now..." -f $_.Key, $_.Value)
-            $shortcut = "$env:USERPROFILE\Start Menu\Programs\$($_.Key).lnk"
+            $shortcut = "$profile_path\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\$($_.Key).lnk"
             $target = $_.Value
             $description = $_.Key
             $workingdirectory = (Get-ChildItem $target).DirectoryName
@@ -73,3 +101,4 @@ $programs.GetEnumerator() | ForEach-Object {
         }
     }
 }
+} 
