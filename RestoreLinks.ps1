@@ -15,6 +15,7 @@ if the application doesn't exists nothing happen
     SOFTWARE
 #>
 
+# WE ARE WORKING TO FIX AN ERROR DURING THE SCRIPT BECAUSE IN THIS MOMENT THE PROCEDURE TRY TO ADD ICONS IN ALL PROFILES. WE WILL FIX IT SOON
 
 $programs = @{
     "Acrobat Reader DC" = "C:\Program Files (x86)\Adobe\Acrobat Reader DC\Reader\AcroRd32.exe"
