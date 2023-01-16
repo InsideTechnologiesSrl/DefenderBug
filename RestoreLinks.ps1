@@ -42,6 +42,7 @@ $programs = @{
     "Visual Studio Code" = "C:\Program Files\Microsoft VS Code\code.exe"
     "Camtasia Studio" = "C:\Program Files\TechSmith\Camtasia 2022\CamtasiaStudio.exe"
     "Camtasia Recorder" = "C:\Program Files\TechSmith\Camtasia 2022\CamtasiaRecorder.exe"
+    "OBS Studio" = "C:\Program Files\obs-studio\bin\64bit\obs64.exe"
     "Jabra Direct" = "C:\Program Files (x86)\Jabra\Direct6\jabra-direct.exe"
     "7-Zip File Manager" = "C:\Program Files\7-Zip\7zFM.exe"
     "Access"                   = "C:\Program Files\Microsoft Office\root\Office16\MSACCESS.EXE"
@@ -74,6 +75,7 @@ $programs = @{
 }
 
 #Check for shortcuts in Start Menu, if program is available and the shortcut isn't... Then recreate the shortcut
+<#
 $guid = New-Guid
 New-PSDrive -PSProvider Registry -Name $guid -Root HKEY_USERS -Scope Global | Out-Null
 $users = Get-ChildItem -Path "${guid}:\"
@@ -83,8 +85,10 @@ foreach ($user in $users){
     {        
         continue;   
     }
-$sid_string = $user.Name.Split("\")[-1] 
-$profile_path = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\$sid_string" -Name "ProfileImagePath").ProfileImagePath
+$sid_string = $user.Name.Split("\")[-1]
+#>
+$sid = [System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+$profile_path = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\$sid" -Name "ProfileImagePath").ProfileImagePath
 
 $programs.GetEnumerator() | ForEach-Object {
     if (Test-Path -Path $_.Value) {
@@ -100,11 +104,8 @@ $programs.GetEnumerator() | ForEach-Object {
             $Shortcut.Description = $description
             $shortcut.WorkingDirectory = $workingdirectory
             $Shortcut.Save()
-            Start-Sleep -Seconds 1			# Let the LNK file be backed to disk
+            Start-Sleep -Seconds 1
         }
     }
 }
-
-Copy-Item "$profile_path\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Microsoft Edge.lnk" -Destination "$profile_path\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\"
-Copy-Item "$profile_path\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Outlook.lnk" -Destination "$profile_path\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\"
-} 
+#} 
