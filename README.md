@@ -4,6 +4,8 @@ On January 13th, Windows Security and Microsoft Defender for Endpoint customers 
 
 There’s no way to restore the icon but there’s a way to rebuild the most common to Start Menu with this script.
 
+This script runs on Windows 10 and Windows 11 without elevated permission.
+
 To know what kind of links are deleted, open Microsoft Defender 365 portal and run this Advanced Hunting query:
 
 DeviceEvents
@@ -21,3 +23,4 @@ I will keep updated the script every day.
 If you want collaborate, send your programs.
 
 Last Update: 16/01/2023
+Version: 1.5
