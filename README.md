@@ -9,17 +9,15 @@ This script runs on Windows 10 and Windows 11 without elevated permission.
 To know what kind of links are deleted, open Microsoft Defender 365 portal and run this Advanced Hunting query:
 
 DeviceEvents
-| where Timestamp >= datetime(2023-01-13)
-| where ActionType contains "AsrOfficeMacroWin32ApiCallsBlocked"
-| where FileName contains ".lnk"
-| extend JSON = parse_json(AdditionalFields)
-| extend isAudit = tostring(JSON.IsAudit)
-| where isAudit == "false"
-| summarize by Timestamp, DeviceId, FileName, FolderPath, ActionType, AdditionalFields, isAudit
-| sort by Timestamp asc
+| where Timestamp >= datetime(2023-01-13) and Timestamp < datetime(2023-01-14)
+| where ActionType contains "BrowserLaunchedToOpenUrl"
+| where RemoteUrl endswith ".lnk"
+| where RemoteUrl contains "start menu"
+| summarize by Timestamp, DeviceName, DeviceId, RemoteUrl,ActionType
+| sort by Timestamp asc
 
 I will keep updated the script every day. If you want collaborate, send your programs.
 
-Last Update: 16/01/2023
+Last Update: 17/01/2023
 
-Version: 2.0
+Version: 2.1
