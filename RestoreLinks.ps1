@@ -70,6 +70,7 @@ $programs = @{
     "AutoCAD LT 2023" = "C:\Program Files\Autodesk\AutoCAD LT 2023\acadlt.exe"
     "Rhino 7" = "C:\Program Files\Rhino 7\System\Rhino.exe"
     "Rhino 6" = "C:\Program Files\Rhino 6\System\Rhino.exe"
+    "Ultimaker Cura 5.2.1" = "C:\Program Files\Ultimaker Cura 5.2.1\Ultimaker-Cura.exe"
 }
 
 #Check for shortcuts in Start Menu, if program is available and the shortcut isn't... Then recreate the shortcut
