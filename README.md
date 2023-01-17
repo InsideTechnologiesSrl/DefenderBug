@@ -16,6 +16,16 @@ DeviceEvents
 | summarize by Timestamp, DeviceName, DeviceId, RemoteUrl,ActionType
 | sort by Timestamp asc
 
+This query is a little bit easy but is without duplicate:
+
+DeviceEvents
+| where Timestamp >= datetime(2023-01-13) and Timestamp < datetime(2023-01-14)
+| where ActionType contains "BrowserLaunchedToOpenUrl"
+| where RemoteUrl endswith ".lnk"
+| where RemoteUrl contains "start menu"
+| distinct DeviceName, RemoteUrl,ActionType
+| sort by RemoteUrl asc
+
 I will keep updated the script every day. If you want collaborate, send your programs.
 
 Last Update: 17/01/2023
