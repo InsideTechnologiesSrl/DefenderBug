@@ -28,6 +28,6 @@ DeviceEvents
 
 I will keep updated the script every day. If you want collaborate, send your programs.
 
-Last Update: 17/01/2023
+Last Update: 19/01/2023
 
-Version: 2.1
+Version: 2.2
